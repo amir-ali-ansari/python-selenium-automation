@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 from behave import when, then, given
+from time import sleep
 from selenium.webdriver.support import expected_conditions as EC
 
 Privacy_Notice=(By.CSS_SELECTOR, "a[href='https://www.amazon.com/privacy']")
@@ -23,7 +24,7 @@ def click_on_privacy_notice(context):
 
 @when("switch to the newly opened window")
 def switch_to_new_window(context):
-    context.driver.wait.until(EC.new_window_is_opened)
+    context.wait.until(EC.new_window_is_opened)
     current_window = context.driver.window_handles
     print(current_window)
     context.driver.switch_to.window(current_window[1])
@@ -31,7 +32,8 @@ def switch_to_new_window(context):
 
 @then("verify Amazon Privacy Notice is opened")
 def privacy_notice_is_open(context):
-    context.driver.wait.until(EC.url_contains('https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ'))
+    sleep(4)
+    assert 'https://www.amazon.com/gp/help/customer/display.html' in context.driver.current_url, f'Got {context.driver.current_url}'
     print(context.driver.current_window_handle)
 
 

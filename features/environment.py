@@ -1,8 +1,12 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import  expected_conditions as EC
+from selenium.webdriver.support import expected_conditions as EC
 
+from app.application import Application
+from pages.base_page import Page
+from pages.amazon_sign_in_page import SignInPage
+from pages.amazon_cart_page import CartPage
 def browser_init(context):
     """
     :param context: Behave context
@@ -13,8 +17,13 @@ def browser_init(context):
 
     context.driver.maximize_window()
     # context.driver.implicitly_wait(4)
-    context.driver.wait=WebDriverWait(context, 10)
+    context.wait=WebDriverWait(context, 10)
     # wait = WebDriverWait(context.driver, 10)
+    context.app = Application(context.driver)
+    context.pages = Page(context.driver)
+    context.pages = SignInPage(context.driver)
+    context.pages = CartPage(context.driver)
+
 
 
 def before_scenario(context, scenario):
